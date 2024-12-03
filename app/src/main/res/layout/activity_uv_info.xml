@@ -10,7 +10,7 @@
         android:id="@+id/uvInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UV Index: 6"
+        android:text="UV Index: Err"
         android:textSize="24sp"
         android:textStyle="bold" />
 
