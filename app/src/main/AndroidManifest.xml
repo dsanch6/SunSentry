@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,6 +18,7 @@
         android:theme="@style/Theme.SunSentry"
         tools:targetApi="31">
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -26,6 +28,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Other Activities -->
         <activity
             android:name=".ConsentActivity"
             android:exported="true" />
@@ -34,6 +37,9 @@
             android:name=".UVInfoActivity"
             android:exported="true" />
 
-    </application>
+        <activity
+            android:name=".WeeklyCalendarActivity"
+            android:exported="true" />
 
+    </application>
 </manifest>

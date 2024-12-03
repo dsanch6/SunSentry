@@ -13,4 +13,11 @@
         android:text="UV Index: 6"
         android:textSize="24sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/openCalendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weekly Tracker"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

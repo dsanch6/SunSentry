@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Button to check permissions and start ConsentActivity
         val checkPermissionButton = findViewById<Button>(R.id.checkPermissionButton)
         checkPermissionButton.setOnClickListener {
             val intent = Intent(this, ConsentActivity::class.java)
