@@ -50,7 +50,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:18.0.0")
 
     // Networking - OkHttp for API calls
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
 
     // Testing Libraries
     testImplementation("junit:junit:4.13.2")
