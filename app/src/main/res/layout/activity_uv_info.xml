@@ -6,9 +6,11 @@
     android:gravity="center"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/checkPermissionButton"
+    <TextView
+        android:id="@+id/uvInfoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check Location Permission" />
+        android:text="UV Index: 6"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 </LinearLayout>

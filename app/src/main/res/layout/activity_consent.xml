@@ -7,8 +7,8 @@
     android:padding="16dp">
 
     <Button
-        android:id="@+id/checkPermissionButton"
+        android:id="@+id/grantPermissionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check Location Permission" />
+        android:text="Grant Permission" />
 </LinearLayout>
