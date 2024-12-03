@@ -1,6 +1,4 @@
 # SunSentry
-UV App
-# SunSentry: Personalized Sun Protection App
 
 ## Abstract
 
