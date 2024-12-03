@@ -2,49 +2,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blue_gradient_background"
+    android:foregroundTint="#B3E5FC"
     android:padding="16dp">
-
     <!-- Back Button -->
     <Button
         android:id="@+id/backToUVPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="8dp" />
+        android:layout_margin="8dp"
+        android:background="5A72A7"
+        android:text="Back" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/calendarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weekly Sunscreen Tracker"
-        android:textSize="20sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
+        android:text="Weekly Sunscreen Tracker"
+        android:textColor="#F6511D"
+        android:textColorLink="#F6511D"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Grid Layout -->
-    <GridLayout
-        android:id="@+id/calendarGrid"
+    <TextView
+        android:id="@+id/logoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="SunSentry"
+        android:textColor="#F6511D"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+    <!-- CalendarView -->
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/calendarTitle"
-        android:columnCount="7"
-        android:padding="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="#FFD670"
+        android:backgroundTint="#FFD670"
+        android:selectedWeekBackgroundColor="#5A72A7"
+        android:weekNumberColor="#5A72A7"
+        android:weekSeparatorLineColor="#5A72A7" />
 
-        <!-- Example for a Day -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Sun" />
+    <!-- Grid Layout -->
 
-        <Button
-            android:id="@+id/sunUsage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mark" />
-    </GridLayout>
+    <Button
+        android:id="@+id/sunUsage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/calendarView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/sun_button_background"
+        android:text="Mark"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
 </RelativeLayout>
