@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
-        android:background="5A72A7"
+        android:background="#5A72A7"
         android:text="Back" />
 
     <!-- Title -->

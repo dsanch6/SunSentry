@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">SunSentry</string>
-    <string name="uv_index_text">UV Index: %1$s</string>
     <string name="location_error">Unable to get location.</string>
     <string name="api_error">Error fetching UV Index.</string>
     <string name="permission_required">Location permission required to fetch UV Index.</string>
+    <string name="uv_index_text">UV Index: %1$s</string>
+    <string name="location_name_text">Location: %1$s</string>
 </resources>
