@@ -20,20 +20,23 @@ import java.io.IOException
 class UVInfoActivity : AppCompatActivity() {
 
     private val client = OkHttpClient()
-    private val apiKey = "f9f7e08fea8dddb165042d2bfebe54f0" // OpenWeather API key
+    private val uvApiKey = "f9f7e08fea8dddb165042d2bfebe54f0"
+    private val geocodingApiKey = "AIzaSyDj60wCZPrAZRMQp_PLs-SZ_inqLeAb9OM"
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uvInfoTextView: TextView
+    private lateinit var locationNameTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uv_info)
 
         uvInfoTextView = findViewById(R.id.uvInfoTextView)
+        locationNameTextView = findViewById(R.id.locationNameTextView)
         val openCalendarButton = findViewById<Button>(R.id.openCalendar)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        checkLocationPermissionAndFetchUVIndex()
+        checkLocationPermissionAndFetchData()
 
         openCalendarButton.setOnClickListener {
             val intent = Intent(this, WeeklyCalendarActivity::class.java)
@@ -41,7 +44,7 @@ class UVInfoActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkLocationPermissionAndFetchUVIndex() {
+    private fun checkLocationPermissionAndFetchData() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 this,
@@ -49,78 +52,87 @@ class UVInfoActivity : AppCompatActivity() {
                 LOCATION_PERMISSION_REQUEST_CODE
             )
         } else {
-            fetchLocationAndUVIndex()
+            fetchLocationData()
         }
     }
 
-    private fun fetchLocationAndUVIndex() {
+    private fun fetchLocationData() {
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     if (location != null) {
                         fetchUVIndex(location.latitude, location.longitude) { uvIndex ->
                             runOnUiThread {
-                                uvInfoTextView.text = getString(R.string.uv_index_text, uvIndex.toString())
+                                uvInfoTextView.text = "UV Index: $uvIndex"
+                            }
+                        }
+                        fetchLocationName(location.latitude, location.longitude) { locationName ->
+                            runOnUiThread {
+                                locationNameTextView.text = filterPlusCode(locationName)
                             }
                         }
                     } else {
-                        Log.e("UVInfoActivity", "Location is null")
-                        uvInfoTextView.text = getString(R.string.location_error)
+                        uvInfoTextView.text = "Error: Location is null"
                     }
-                }.addOnFailureListener {
-                    Log.e("UVInfoActivity", "Error getting location", it)
-                    uvInfoTextView.text = getString(R.string.location_error)
                 }
-            } else {
-                uvInfoTextView.text = getString(R.string.permission_required)
             }
         } catch (e: SecurityException) {
-            Log.e("UVInfoActivity", "SecurityException: Permission not granted", e)
-            uvInfoTextView.text = getString(R.string.permission_required)
+            uvInfoTextView.text = "Error: Permission denied"
         }
     }
 
     private fun fetchUVIndex(latitude: Double, longitude: Double, callback: (Double) -> Unit) {
-        val url = "https://api.openweathermap.org/data/2.5/uvi?lat=$latitude&lon=$longitude&appid=$apiKey"
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
+        val url = "https://api.openweathermap.org/data/2.5/uvi?lat=$latitude&lon=$longitude&appid=$uvApiKey"
+        val request = Request.Builder().url(url).build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("UVInfoActivity", "Error fetching UV Index", e)
-                runOnUiThread {
-                    uvInfoTextView.text = getString(R.string.api_error)
-                }
+                Log.e("UVInfoActivity", "UV API error", e)
+                callback(0.0)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    response.body?.let { responseBody ->
-                        val json = JSONObject(responseBody.string())
-                        val uvIndex = json.optDouble("value", 0.0) // "value" contains the UV index
+                    response.body?.let {
+                        val json = JSONObject(it.string())
+                        val uvIndex = json.optDouble("value", 0.0)
                         callback(uvIndex)
                     }
                 } else {
-                    Log.e("UVInfoActivity", "API response unsuccessful")
-                    runOnUiThread {
-                        uvInfoTextView.text = getString(R.string.api_error)
-                    }
+                    callback(0.0)
                 }
             }
         })
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                fetchLocationAndUVIndex()
-            } else {
-                uvInfoTextView.text = getString(R.string.permission_required)
+    private fun fetchLocationName(latitude: Double, longitude: Double, callback: (String) -> Unit) {
+        val url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$geocodingApiKey"
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("UVInfoActivity", "Geocoding API error", e)
+                callback("Unknown")
             }
-        }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    response.body?.let {
+                        val json = JSONObject(it.string())
+                        val results = json.optJSONArray("results")
+                        val locationName = results?.optJSONObject(0)?.optString("formatted_address") ?: "Unknown"
+                        callback(locationName)
+                    }
+                } else {
+                    callback("Unknown")
+                }
+            }
+        })
+    }
+
+    private fun filterPlusCode(locationName: String): String {
+        val regex = Regex("^[A-Z0-9+]+\\s+")
+        return regex.replace(locationName, "").trim()
     }
 
     companion object {

@@ -14,7 +14,17 @@
         android:background="@drawable/sun_button_background"
         android:text="UV Index: Err"
         android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/locationNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unknown"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
 
     <Button
         android:id="@+id/openCalendar"
