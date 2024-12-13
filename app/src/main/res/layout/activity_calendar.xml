@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="SunSentry"
+        android:text="@string/sun_sentry_title"
         android:textColor="#F6511D"
         android:textSize="24sp"
         android:textStyle="bold" />
