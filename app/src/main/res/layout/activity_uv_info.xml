@@ -7,6 +7,23 @@
     android:padding="16dp"
     android:background="@drawable/blue_gradient_background">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-100dp"
+        android:src="@drawable/ic_sun" />
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="48dp"
+        android:text="@string/sun_sentry_title"
+        android:gravity="center" />
+
     <TextView
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
@@ -19,7 +36,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/sun_button_background"
-        android:text="UV Index: Err"
+        android:text="Today's UV: "
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -30,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Unknown"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:layout_marginBottom="16dp" />
 
     <Button

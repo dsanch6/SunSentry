@@ -70,7 +70,7 @@ class UVInfoActivity : AppCompatActivity() {
                     if (location != null) {
                         fetchUVIndex(location.latitude, location.longitude) { uvIndex ->
                             runOnUiThread {
-                                uvInfoTextView.text = "UV Index: $uvIndex"
+                                uvInfoTextView.text = "Today's UV: $uvIndex"
                             }
                         }
                         fetchLocationName(location.latitude, location.longitude) { locationName ->
