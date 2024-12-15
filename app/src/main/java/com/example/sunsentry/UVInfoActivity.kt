@@ -31,26 +31,32 @@ class UVInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_uv_info)
 
+        // Initialize UI elements
         uvInfoTextView = findViewById(R.id.uvInfoTextView)
         locationNameTextView = findViewById(R.id.locationNameTextView)
         welcomeTextView = findViewById(R.id.welcomeTextView)
         val openCalendarButton = findViewById<Button>(R.id.openCalendar)
 
+        // Display welcome message with user email
         val email = intent.getStringExtra("userEmail")
         if (email != null) {
             welcomeTextView.text = "Welcome, $email"
         }
 
+        // Initialize location services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        // Check permissions and fetch data
         checkLocationPermissionAndFetchData()
 
+        // Open calendar activity on button click
         openCalendarButton.setOnClickListener {
             val intent = Intent(this, WeeklyCalendarActivity::class.java)
             startActivity(intent)
         }
     }
 
+    // Check location permissions and fetch data if granted
     private fun checkLocationPermissionAndFetchData() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -63,6 +69,7 @@ class UVInfoActivity : AppCompatActivity() {
         }
     }
 
+    // Fetch location data if permission granted
     private fun fetchLocationData() {
         try {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -88,6 +95,7 @@ class UVInfoActivity : AppCompatActivity() {
         }
     }
 
+    // Fetch UV index from OpenWeather API
     private fun fetchUVIndex(latitude: Double, longitude: Double, callback: (Double) -> Unit) {
         val url = "https://api.openweathermap.org/data/2.5/uvi?lat=$latitude&lon=$longitude&appid=$uvApiKey"
         val request = Request.Builder().url(url).build()
@@ -112,6 +120,7 @@ class UVInfoActivity : AppCompatActivity() {
         })
     }
 
+    // Fetch location name from Google Maps Geocoding API
     private fun fetchLocationName(latitude: Double, longitude: Double, callback: (String) -> Unit) {
         val url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$geocodingApiKey"
         val request = Request.Builder().url(url).build()
@@ -137,6 +146,7 @@ class UVInfoActivity : AppCompatActivity() {
         })
     }
 
+    // Filter the PlusCode from the location name
     private fun filterPlusCode(locationName: String): String {
         val regex = Regex("^[A-Z0-9+]+\\s+")
         return regex.replace(locationName, "").trim()
