@@ -25,6 +25,7 @@ class UVInfoActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var uvInfoTextView: TextView
     private lateinit var locationNameTextView: TextView
+    private lateinit var welcomeTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,13 @@ class UVInfoActivity : AppCompatActivity() {
 
         uvInfoTextView = findViewById(R.id.uvInfoTextView)
         locationNameTextView = findViewById(R.id.locationNameTextView)
+        welcomeTextView = findViewById(R.id.welcomeTextView)
         val openCalendarButton = findViewById<Button>(R.id.openCalendar)
+
+        val email = intent.getStringExtra("userEmail")
+        if (email != null) {
+            welcomeTextView.text = "Welcome, $email"
+        }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
