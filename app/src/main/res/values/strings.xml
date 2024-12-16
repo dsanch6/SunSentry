@@ -8,4 +8,7 @@
     <string name="sun_sentry_title">
         <font color="#F6511D">Sun</font><font color="#4285F4">Sentry</font>
     </string>
+    <string name="calendar">Calendar</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
 </resources>

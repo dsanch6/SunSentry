@@ -6,10 +6,11 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.appname.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WeeklyCalendarActivity : AppCompatActivity() {
+class WeeklyCalendarActivity : BaseActivity() {
 
     private val sunscreenUsage = mutableMapOf<String, MutableList<String>>() // storing times you applied
 
